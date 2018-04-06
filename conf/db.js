@@ -1,9 +1,9 @@
 // conf/db.js
 module.exports = {
 	mysql: {
-		host: '192.168.64.2',
+		host: '127.0.0.1',
 		user: 'root',
-		password: 'admin',
+		password: '',
 		database: 'shop',
 		port: 3306
 	}

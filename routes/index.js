@@ -8,25 +8,6 @@ router.get('/', function (req, res, next) {
 
 /***********后台管理 等分离成另外路由***********/
 
-// //引入数据库包
-// var mysql = require('mysql');
-// var db = require("../conf/db");
-
-// // 使用db.js的配置信息创建一个MySQL连接池
-// var pool = mysql.createPool(db.mysql);
-
-// 响应json数据
-var responseJSON = function (res, ret) {
-  if (typeof ret === 'undefined') {
-    res.json({
-      code: '-200',
-      msg: '操作失败'
-    });
-  } else {
-    res.json(ret);
-  }
-};
-
 // 登陆页面
 router.get('/admin', function (req, res, next) {
   res.redirect('/admin/login');
@@ -44,22 +25,22 @@ router.post('/admin/act_login', function (req, res, next) {
   var username = req.body.username;
   var password = req.body.password;
   var sql = 'SELECT * FROM admin WHERE username = ? AND password = ?';
+
   req.getConnection(function (error, conn) {
     if (error) throw error;
-    var param = req.query || req.params;
-    conn.query(sql, [param.username, param.password], function (err, result) {
-      console.log(req.params);
-      if (!err) {
-        console.log(result);
-        result = {
-          code: 200,
+    conn.query(sql, [username, password], function (err, result) {
+      if (err) throw error;
+      if (result.length > 0) {
+        res.json({
+          code: '200',
           msg: '登陆成功'
-        };
+        });
+      } else {
+        res.json({
+          code: '-200',
+          msg: '操作失败'
+        });
       }
-      // 以json形式，把操作结果返回给前台页面
-      responseJSON(res, result);
-      // 释放连接
-      conn.release();
     });
   });
 });
