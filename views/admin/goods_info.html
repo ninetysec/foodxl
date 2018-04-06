@@ -5,14 +5,11 @@
 </head>
 <body>
     <% include include/top.html %>
-	<table>
-        <tbody>
-            <tr>
-                <th>订单号</th>
-                <th></th>
-            </tr>
-        </tbody>   
-    </table>
+    产品名称：<input name="goods_name" type="text" /><br>
+    产品说明：<textarea name="goods_desc" type="text"></textarea><br>
+    产品价格：<input name="goods_price" type="text" /><br>
+    产品图片：<input type="file" name="image" accept="image/*"/><br>
+    <input name="submit" type="submit" value="保存" />
     <% include include/footer.html %>
 </body>
 </html>

@@ -8,11 +8,29 @@
 	<table>
         <tbody>
             <tr>
-                <th>订单号</th>
-                <th></th>
+                <th>编号</th>
+                <th>商品名称</th>
+                <th>价格</th>
+                <th>上架</th>
+                <th>置顶</th>
+                <th>操作</th>
             </tr>
-        </tbody>   
+            <tr>
+                <td>1</td>
+                <td>糖醋排骨</td>
+                <td>100.00元</td>
+                <td>
+                    <input type="checkbox" name="on_sale" value="1" checked="checked" />
+                </td>
+                <td>
+                    <input type="checkbox" name="on_top" value="1" checked="checked" />
+                </td>
+                <td><a href="order_info?id=1">查看</a> | <a href="order_del?id=1">删除</a></td>
+            </tr>
+        </tbody>
     </table>
+    <p>总计 1 个记录</p>
+    <p>首页 | 上一页 | 下一页 | 尾页</p>
     <% include include/footer.html %>
 </body>
 </html>
