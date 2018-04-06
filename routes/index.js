@@ -39,25 +39,25 @@ router.get('/admin/login', function (req, res, next) {
 router.post('/admin/act_login', function (req, res, next) {
   /*
     此处写数据库查询代码，与session记录操作
+    登陆查询代码不知道该咋写，下面这样是查不到的，你帮我检查一下啥问题
    */
-    console.log(res.json);
     var username = req.body.username;
     var password = req.body.password;
     var sql = 'SELECT * FROM admin WHERE username = ? AND password = ?';
-    pool.getConnection(function(err, connection) { 
-    var param = req.query || req.params;
-    connection.query(sql, [param.username,param.password], function(err, result) {
-        console.log(111111);
-        if(result == 1) {      
-            result = {
-                code: 200,   
-                msg:'登陆成功'
-            };
-        }
-        // 以json形式，把操作结果返回给前台页面
-        responseJSON(res, result);
-        // 释放连接
-        connection.release();
+    pool.getConnection(function(err, connection) {
+        var param = req.query || req.params;
+        connection.query(sql, [param.username,param.password], function(err, result) {
+            console.log(req.params);
+            if(result == 1) {
+                result = {
+                    code: 200,
+                    msg:'登陆成功'
+                };
+            }
+            // 以json形式，把操作结果返回给前台页面
+            responseJSON(res, result);
+            // 释放连接
+            connection.release();
         });
     });
 });
@@ -72,7 +72,7 @@ router.get('/admin/act_logout', function (req, res, next) {
 
 // 后台页面
 router.get('/admin/main', function (req, res, next) {
-  res.render('admin/main');
+    res.render('admin/main');
 });
 
 // 订单列表
