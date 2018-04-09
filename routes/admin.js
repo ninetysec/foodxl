@@ -1,10 +1,13 @@
 var express = require('express');
 var router = express.Router();
-//引入数据库包
-var db = require("./db.js");
+
+/***********后台管理***********/
 
 // 登陆页面
 router.get('/', function (req, res, next) {
+  res.redirect('/login');
+});
+router.get('/login', function (req, res, next) {
   res.render('admin/login');
 });
 
@@ -12,8 +15,25 @@ router.get('/', function (req, res, next) {
 router.post('/act_login', function (req, res, next) {
   /*
     此处写数据库查询代码，与session记录操作
-   */
-  res.redirect('/');
+  */
+  var username = req.body.username;
+  var password = req.body.password;
+  var sql = 'SELECT * FROM admin WHERE username = ? AND password = ?';
+
+  req.getConnection(function (error, conn) {
+    if (error) throw error;
+    conn.query(sql, [username, password], function (err, result) {
+      if (err) throw error;
+      if (result.length > 0) {
+        res.redirect('/admin/main');
+      } else {
+        res.json({
+          code: '-200',
+          msg: '操作失败'
+        });
+      }
+    });
+  });
 });
 
 // 登陆操作
@@ -21,12 +41,12 @@ router.get('/act_logout', function (req, res, next) {
   /*
     此处写销毁session记录操作
    */
-  res.redirect('/');
+  res.redirect('');
 });
 
 // 后台页面
 router.get('/main', function (req, res, next) {
-  res.redirect('/');
+  res.render('admin/main');
 });
 
 // 订单列表
@@ -35,7 +55,7 @@ router.get('/order', function (req, res, next) {
 });
 
 // 订单详细
-router.get('order_info', function (req, res, next) {
+router.get('/order_info', function (req, res, next) {
   res.render('admin/order_info');
 });
 
@@ -58,6 +78,5 @@ router.get('/comment', function (req, res, next) {
 router.get('/manage', function (req, res, next) {
   res.render('admin/manage');
 });
-
 
 module.exports = router;
