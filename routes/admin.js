@@ -5,7 +5,7 @@ var router = express.Router();
 
 // 登陆页面
 router.get('/', function (req, res, next) {
-  res.redirect('/login');
+  res.redirect('/admin/login');
 });
 router.get('/login', function (req, res, next) {
   res.render('admin/login');
