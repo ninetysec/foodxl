@@ -42,11 +42,11 @@ app.use(express.static(path.join(__dirname, 'public')));
  */
 var index = require('./routes/index');
 var api = require('./routes/api');
-// var admin = require('./routes/admin');
+var admin = require('./routes/admin');
 
 app.use('/', index);
 app.use('/api', api);
-// app.use('/admin', admin);
+app.use('/admin', admin);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
