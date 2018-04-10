@@ -1,6 +1,5 @@
 # 剔除数据库文件
-conf/db.js
-
+conf/
 ### macOS ###
 *.DS_Store
 .AppleDouble
