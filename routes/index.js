@@ -16,5 +16,14 @@ router.get('/category', function (req, res, next) {
   res.render('category');
 });
 
+// 购物车
+router.get('/flow', function (req, res, next) {
+  res.render('flow');
+});
+
+// 关于我
+router.get('/about', function (req, res, next) {
+  res.render('about');
+});
 
 module.exports = router;
