@@ -61,13 +61,25 @@ router.get('/order_info', function (req, res, next) {
 
 // 产品列表
 router.get('/goods', function (req, res, next) {
-  res.render('admin/goods');
+  if (req.query.id) {
+    var goods_id = req.query.id;
+    var sql = 'SELECT * FROM goods';
+    req.getConnection(function (error, conn) {
+      if (error) throw error;
+      conn.query(sql, [goods_id], function (err, result) {
+        if (!err) {
+          res.json(result);
+        }
+      });
+    });
+  } else {
+    res.render('admin/goods_info');
+  }
 });
 
 // 产品详细
 router.get('/goods_info', function (req, res, next) {
-  if (req.query.id)
-  {
+  if (req.query.id) {
     var goods_id = req.query.id;
     var sql = 'SELECT * FROM goods WHERE goods_id = ?';
     req.getConnection(function (error, conn) {
@@ -75,7 +87,7 @@ router.get('/goods_info', function (req, res, next) {
       conn.query(sql, [goods_id], function (err, result) {
         if (!err) {
           // console.log(result[0].goods_name);
-          res.render('admin/goods_info',{
+          res.render('admin/goods_info', {
             goods_id: result[0].goods_id,
             goods_name: result[0].goods_name,
             goods_desc: result[0].goods_desc,
@@ -99,8 +111,7 @@ router.post('/goods_save', function (req, res, next) {
   var goods_price = req.body.goods_price;
   // var image = req.body.image;
   // 判断是否有产品ID，有更新，无插入
-  if (goods_id == 0)
-  {
+  if (goods_id == 0) {
     var sql = 'INSERT INTO goods(goods_id, goods_name, goods_desc, cat_id, goods_price) VALUES(?, ?, ?, ?, ?);';
     req.getConnection(function (error, conn) {
       if (error) throw error;
